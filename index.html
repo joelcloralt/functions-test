@@ -7,6 +7,8 @@
 <body>
   <div id="app">
     {{ message }}
+
+    <button v-on:click="callNetlifyFunction">Say Hello</button>
   </div>
 
   <script>
@@ -14,6 +16,13 @@
       el: '#app',
       data: {
         message: 'Hello Vue!'
+      },
+      methods: {
+        callNetlifyFunction: function () {
+          fetch('https://elastic-ride-875e07.netlify.app/.netlify/functions/oscar')
+        .then(response => response.json())
+        .then(data => console.log(data));
+        }
       }
     })
   </script>
