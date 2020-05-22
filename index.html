@@ -6,22 +6,44 @@
 </head>
 <body>
   <div id="app">
-    {{ message }}
-
+    <p>What's your name?</p>
+    <input v-model="name" placeholder="edit me">
     <button v-on:click="callNetlifyFunction">Say Hello</button>
+    <p>{{title}}</p>
   </div>
 
   <script>
     var app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!'
+        title: "",
+        name: ''
       },
       methods: {
         callNetlifyFunction: function () {
-          fetch('https://elastic-ride-875e07.netlify.app/.netlify/functions/oscar')
-        .then(response => response.json())
-        .then(data => console.log(data));
+
+          async function postData(url = '', body = {}) {
+            console.log("PASSING DATA", body)
+            const response = await fetch(url, {
+              method: 'POST', 
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(body)
+            });
+            return response.json();
+        }
+
+        postData('/.netlify/functions/oscar',  app.$data )
+          .then(results => {
+            this.data = results;
+            console.log(results);
+          });
+
+
+        // fetch('/.netlify/functions/oscar')
+        // .then(response => response.json())
+        // .then(data => console.log(data));
         }
       }
     })
