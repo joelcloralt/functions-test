@@ -2,3 +2,9 @@
   publish = "public"
   functions = "functions"
   command = "# no build command"
+
+[build.environment]
+  NODE_VERSION = "22.23.4"
+
+[functions]
+  node_bundler = "esbuild"
