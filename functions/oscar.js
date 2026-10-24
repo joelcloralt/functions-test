@@ -1,5 +1,4 @@
 exports.handler = (event, context, callback) => {
-    console.log("RECEIVING DATA", event.body);
 
     let body = event.body;
 
@@ -7,7 +6,16 @@ exports.handler = (event, context, callback) => {
         //return some default if nothing was passed
         body = {title: "Assistant to the regional manager", name: "Oscar"}       
     } else {
-      body = JSON.parse(event.body)
+      try {
+        body = JSON.parse(event.body);
+      } catch {
+        callback(null, { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) });
+        return;
+      }
+      if (!body || typeof body !== "object" || Array.isArray(body)) {
+        callback(null, { statusCode: 400, body: JSON.stringify({ error: "Invalid body" }) });
+        return;
+      }
     }
     
 
