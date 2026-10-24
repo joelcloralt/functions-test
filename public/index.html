@@ -1,52 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My first Vue app</title>
-  <script src="https://unpkg.com/vue"></script>
-</head>
-<body>
-  <div id="app">
-    <p>What's your name?</p>
-    <input v-model="name" placeholder="edit me">
-    <button v-on:click="callNetlifyFunction">Say Hello</button>
-    <p>{{title}}</p>
-  </div>
-
-  <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        title: "",
-        name: ''
-      },
-      methods: {
-        callNetlifyFunction: function () {
-
-          async function postData(url = '', body = {}) {
-            console.log("PASSING DATA", body)
-            const response = await fetch(url, {
-              method: 'POST', 
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(body)
-            });
-            return response.json();
-        }
-
-        postData('/.netlify/functions/oscar',  app.$data )
-          .then(results => {
-            this.data = results;
-            console.log(results);
-          });
-
-
-        // fetch('/.netlify/functions/oscar')
-        // .then(response => response.json())
-        // .then(data => console.log(data));
-        }
-      }
-    })
-  </script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Functions demo</title>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Functions demo</h1>
+      <form id="greeting">
+        <label for="name">What's your name?</label>
+        <input id="name" name="name" required maxlength="100" autocomplete="off">
+        <button type="submit">Say Hello</button>
+      </form>
+      <p id="result" role="status" aria-live="polite"></p>
+    </main>
+  </body>
 </html>
